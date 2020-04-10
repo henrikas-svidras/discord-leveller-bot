@@ -32,10 +32,10 @@ async def roliu_nustatymas(ctx,useris:str,role:str):
     if not dcrole:
         await ctx.send('nėra tokios rolės, LIURBAGALVI!')
         return
-    if dcuser.top_role.name == 'etmonas':
+    if dcuser.top_role.name.lower() == ctx.message.guild.roles[-1].lower():
         await ctx.send('ETMONAS GALI BŪTI NUVERSTAS TIK KRUVINOJE REVOLIUCIJOJE, O NE DEMOKRATIŠKA KOMANDA!')
         return
-    if dcrole.name == 'etmonas':
+    if dcrole.name.lower() ==  ctx.message.guild.roles[-1].lower():
         await ctx.send('ETMONAIS NEPASKIRIAMA - ETMONAIS TAMPAMA!')
         return
     if ctx.author.top_role > dcrole:
@@ -53,7 +53,7 @@ async def roliu_nuemimas(ctx,useris:str):
     if not dcuser:
         await ctx.send('nėra tokio LIURBAGALVIO šitame serveryje!')
         return
-    elif dcuser.top_role == ctx.message.guild.roles[-1]:
+    elif dcuser.top_role.lower() == ctx.message.guild.roles[-1].lower():
         await ctx.send('ETMONŲ DEMOKTRATIŠKU PROCESU NEPAŠALINSI.')
         return
     elif ctx.author.top_role > dcuser.top_role:
@@ -70,10 +70,10 @@ async def niko_nustatymas(ctx,useris:str,nikas:str=''):
     if not dcuser:
         await ctx.send('nėra tokio LIURBAGALVIO šitame serveryje!')
         return
-    if dcuser.top_role.name == 'etmonas':
+    if dcuser.top_role.name.lower() == ctx.message.guild.roles[-1].lower():
         await ctx.send('ETMONAS PATS RENKASI SAVO VARDĄ')
         return
-    elif ctx.author.top_role > dcuser.top_role:
+    elif ctx.author.top_role >= dcuser.top_role:
         await dcuser.edit(nick=nikas)
         response = f'sveikinu, dabar {dcuser.name} turi niką {dcuser.nick}'
     else:
