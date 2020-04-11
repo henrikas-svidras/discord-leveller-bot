@@ -14,12 +14,12 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.command(name='Bot', help='gali pakviesti mane ir pasisveikinti su manimi.')
 async def sveikinimas(ctx):
-    response = f'Sveikas, {ctx.author}, kuo galiu padėti?'
+    response = f'Sveikas, {ctx.author.name}, kuo galiu padėti?'
     await ctx.send(response)
 
 @bot.command(name='Role', help='gali pakviesti mane ir suzinoti savo role.')
 async def roliu_tikrinimas(ctx):
-    response = f'Sveikas, {ctx.author}: tavo aukščiausia  rolė yra {ctx.author.top_role}.'
+    response = f'Sveikas, {ctx.author.name}: tavo aukščiausia  rolė yra {ctx.author.top_role}.'
     await ctx.send(response)
 
 @bot.command(name='SetRoleFor', help='gali pakviesti mane ir nustatysiu role liurbiui. Bet gali tik zemesnes uz save.')
@@ -32,11 +32,11 @@ async def roliu_nustatymas(ctx,useris:str,role:str):
     if not dcrole:
         await ctx.send('nėra tokios rolės, LIURBAGALVI!')
         return
-    if dcuser.top_role.name.lower() == ctx.message.guild.roles[-1].lower():
-        await ctx.send('ETMONAS GALI BŪTI NUVERSTAS TIK KRUVINOJE REVOLIUCIJOJE, O NE DEMOKRATIŠKA KOMANDA!')
+    if dcuser.top_role == ctx.message.guild.roles[-1]:
+        await ctx.send(f'{ctx.message.guild.roles[-1].name.capitalize()[:-2]}Ų DEMOKTRATIŠKU PROCESU NEPAŠALINSI.')
         return
-    if dcrole.name.lower() ==  ctx.message.guild.roles[-1].lower():
-        await ctx.send('ETMONAIS NEPASKIRIAMA - ETMONAIS TAMPAMA!')
+    if dcrole ==  ctx.message.guild.roles[-1]:
+        await ctx.send(f'{ctx.message.guild.roles[-1].name.capitalize()[:-2]}AIS NEPASKIRIAMA - ETMONAIS TAMPAMA!')
         return
     if ctx.author.top_role > dcrole:
         response = f'Sveikinu, dabar: {dcuser.name} turi rolę {dcrole.name}.'
@@ -53,8 +53,8 @@ async def roliu_nuemimas(ctx,useris:str):
     if not dcuser:
         await ctx.send('nėra tokio LIURBAGALVIO šitame serveryje!')
         return
-    elif dcuser.top_role.lower() == ctx.message.guild.roles[-1].lower():
-        await ctx.send('ETMONŲ DEMOKTRATIŠKU PROCESU NEPAŠALINSI.')
+    elif dcuser.top_role == ctx.message.guild.roles[-1]:
+        await ctx.send(f'{ctx.message.guild.roles[-1].name.capitalize()[:-2]}Ų DEMOKTRATIŠKU PROCESU NEPAŠALINSI.')
         return
     elif ctx.author.top_role > dcuser.top_role:
         response = f'Sveikinu, dabar: {dcuser.name} nebeturi jokių rolių.'
@@ -70,8 +70,8 @@ async def niko_nustatymas(ctx,useris:str,nikas:str=''):
     if not dcuser:
         await ctx.send('nėra tokio LIURBAGALVIO šitame serveryje!')
         return
-    if dcuser.top_role.name.lower() == ctx.message.guild.roles[-1].lower():
-        await ctx.send('ETMONAS PATS RENKASI SAVO VARDĄ')
+    if dcuser.top_role == ctx.message.guild.roles[-1]:
+        await ctx.send(f'{ctx.message.guild.roles[-1].name.capitalize()} PATS RENKASI SAVO VARDĄ')
         return
     elif ctx.author.top_role >= dcuser.top_role:
         await dcuser.edit(nick=nikas)
@@ -79,8 +79,11 @@ async def niko_nustatymas(ctx,useris:str,nikas:str=''):
     else:
         response = f'neturi teisės {ctx.author.top_role.name[:-2]}e nelaimingas!'
     await ctx.send(response)
-@roliu_nustatymas.error
-async def parametru_klaida(ctx,error):
+
+
+
+@bot.event
+async def on_command_error(ctx,error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Šiaip siūlau prieš naudojant gal paskaityti biškį kaip veikia low IQ tu')
 
