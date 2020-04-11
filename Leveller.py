@@ -4,8 +4,9 @@ import os
 
 import discord
 from discord.ext import commands
-
 from dotenv import load_dotenv
+
+from skrappler.skra import return_string()
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -80,6 +81,9 @@ async def niko_nustatymas(ctx,useris:str,nikas:str=''):
         response = f'neturi teisės {ctx.author.top_role.name[:-2]}e nelaimingas!'
     await ctx.send(response)
 
+@bot.command(name='SkribbleWords',help='grąžinsiu tiek kiek norite žodžių kuriuos galėsite naudoti skribbl.io žaidime')
+async def zodziu_skribleris(ctx,zodziu_skaicius:int = 5):
+    await ctx.send(return_string(zodziu_skaicius))
 
 
 @bot.event

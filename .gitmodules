@@ -1,0 +1,3 @@
+[submodule "skrappler"]
+	path = skrappler
+	url = https://github.com/daiktas/skrappler.git
