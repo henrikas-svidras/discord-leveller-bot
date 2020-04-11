@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from skrappler.skra import return_string()
+from skrappler.skra import return_string
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
